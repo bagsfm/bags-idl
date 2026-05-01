@@ -1,0 +1,287 @@
+{
+	"address": "BANKjMoSxHmETcmAJXuh6kBvF2TN2UJ4UerJM8q1BqyC",
+	"metadata": {
+		"name": "bags_claim_vault_program",
+		"version": "0.1.0",
+		"spec": "0.1.0",
+		"description": "Created with Anchor"
+	},
+	"instructions": [
+		{
+			"name": "claim_from_user_vault",
+			"discriminator": [31, 114, 48, 238, 96, 195, 61, 187],
+			"accounts": [
+				{
+					"name": "user",
+					"signer": true,
+					"relations": ["user_vault"]
+				},
+				{
+					"name": "payer",
+					"writable": true,
+					"signer": true
+				},
+				{
+					"name": "user_vault",
+					"writable": true,
+					"pda": {
+						"seeds": [
+							{
+								"kind": "const",
+								"value": [117, 115, 101, 114, 95, 118, 97, 117, 108, 116]
+							},
+							{
+								"kind": "account",
+								"path": "user"
+							}
+						]
+					}
+				},
+				{
+					"name": "mint"
+				},
+				{
+					"name": "vault_ata",
+					"writable": true,
+					"pda": {
+						"seeds": [
+							{
+								"kind": "account",
+								"path": "user_vault"
+							},
+							{
+								"kind": "account",
+								"path": "token_program"
+							},
+							{
+								"kind": "account",
+								"path": "mint"
+							}
+						],
+						"program": {
+							"kind": "const",
+							"value": [
+								140, 151, 37, 143, 78, 36, 137, 241, 187, 61, 16, 41, 20, 142, 13, 131, 11, 90, 19, 153, 218, 255, 16, 132, 4, 142, 123, 216, 219, 233, 248, 89
+							]
+						}
+					}
+				},
+				{
+					"name": "user_ata",
+					"writable": true,
+					"pda": {
+						"seeds": [
+							{
+								"kind": "account",
+								"path": "user"
+							},
+							{
+								"kind": "account",
+								"path": "token_program"
+							},
+							{
+								"kind": "account",
+								"path": "mint"
+							}
+						],
+						"program": {
+							"kind": "const",
+							"value": [
+								140, 151, 37, 143, 78, 36, 137, 241, 187, 61, 16, 41, 20, 142, 13, 131, 11, 90, 19, 153, 218, 255, 16, 132, 4, 142, 123, 216, 219, 233, 248, 89
+							]
+						}
+					}
+				},
+				{
+					"name": "token_program"
+				},
+				{
+					"name": "associated_token_program",
+					"address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
+				},
+				{
+					"name": "system_program",
+					"address": "11111111111111111111111111111111"
+				}
+			],
+			"args": []
+		},
+		{
+			"name": "close_user_vault",
+			"discriminator": [65, 92, 132, 113, 45, 163, 253, 201],
+			"accounts": [
+				{
+					"name": "user",
+					"writable": true,
+					"signer": true,
+					"relations": ["user_vault"]
+				},
+				{
+					"name": "user_vault",
+					"writable": true,
+					"pda": {
+						"seeds": [
+							{
+								"kind": "const",
+								"value": [117, 115, 101, 114, 95, 118, 97, 117, 108, 116]
+							},
+							{
+								"kind": "account",
+								"path": "user"
+							}
+						]
+					}
+				}
+			],
+			"args": []
+		},
+		{
+			"name": "create_user_vault",
+			"discriminator": [94, 115, 173, 163, 159, 129, 198, 249],
+			"accounts": [
+				{
+					"name": "user"
+				},
+				{
+					"name": "payer",
+					"writable": true,
+					"signer": true
+				},
+				{
+					"name": "user_vault",
+					"writable": true,
+					"pda": {
+						"seeds": [
+							{
+								"kind": "const",
+								"value": [117, 115, 101, 114, 95, 118, 97, 117, 108, 116]
+							},
+							{
+								"kind": "account",
+								"path": "user"
+							}
+						]
+					}
+				},
+				{
+					"name": "system_program",
+					"address": "11111111111111111111111111111111"
+				}
+			],
+			"args": []
+		}
+	],
+	"accounts": [
+		{
+			"name": "UserVault",
+			"discriminator": [23, 76, 96, 159, 210, 10, 5, 22]
+		}
+	],
+	"events": [
+		{
+			"name": "ClaimedFromUserVault",
+			"discriminator": [208, 62, 26, 145, 138, 20, 225, 200]
+		},
+		{
+			"name": "UserVaultClosed",
+			"discriminator": [38, 129, 61, 196, 48, 190, 138, 217]
+		},
+		{
+			"name": "UserVaultCreated",
+			"discriminator": [27, 147, 127, 79, 98, 58, 5, 25]
+		}
+	],
+	"errors": [
+		{
+			"code": 6000,
+			"name": "VaultEmpty",
+			"msg": "Vault token account has zero balance"
+		}
+	],
+	"types": [
+		{
+			"name": "ClaimedFromUserVault",
+			"type": {
+				"kind": "struct",
+				"fields": [
+					{
+						"name": "user",
+						"type": "pubkey"
+					},
+					{
+						"name": "vault",
+						"type": "pubkey"
+					},
+					{
+						"name": "mint",
+						"type": "pubkey"
+					},
+					{
+						"name": "amount",
+						"type": "u64"
+					},
+					{
+						"name": "timestamp",
+						"type": "i64"
+					}
+				]
+			}
+		},
+		{
+			"name": "UserVault",
+			"type": {
+				"kind": "struct",
+				"fields": [
+					{
+						"name": "user",
+						"type": "pubkey"
+					},
+					{
+						"name": "bump",
+						"type": "u8"
+					}
+				]
+			}
+		},
+		{
+			"name": "UserVaultClosed",
+			"type": {
+				"kind": "struct",
+				"fields": [
+					{
+						"name": "user",
+						"type": "pubkey"
+					},
+					{
+						"name": "vault",
+						"type": "pubkey"
+					},
+					{
+						"name": "timestamp",
+						"type": "i64"
+					}
+				]
+			}
+		},
+		{
+			"name": "UserVaultCreated",
+			"type": {
+				"kind": "struct",
+				"fields": [
+					{
+						"name": "user",
+						"type": "pubkey"
+					},
+					{
+						"name": "vault",
+						"type": "pubkey"
+					},
+					{
+						"name": "timestamp",
+						"type": "i64"
+					}
+				]
+			}
+		}
+	]
+}
